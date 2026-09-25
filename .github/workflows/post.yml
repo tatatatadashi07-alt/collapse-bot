@@ -1,0 +1,22 @@
+name: Collapse Bot Scheduled Post
+
+on:
+  schedule:
+    - cron: '45 2 * * *'
+    - cron: '45 14 * * *'
+    - cron: '10 23 * * *'
+    - cron: '10 11 * * *'
+  workflow_dispatch:
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node post.mjs
+        env:
+          COLLAPSE_BOT_TOKEN: ${{ secrets.COLLAPSE_BOT_TOKEN }}
+          SCHEDULE: ${{ github.event.schedule }}
