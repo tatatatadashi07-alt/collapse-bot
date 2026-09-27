@@ -1,14 +1,19 @@
 const TOKEN = process.env.COLLAPSE_BOT_TOKEN
-const SCHEDULE = process.env.SCHEDULE
+const TYPE = process.env.POST_TYPE
 
 const messages = {
-  '45 2 * * *': '現在、日本時間 午前11時45分です🕚',
-  '45 14 * * *': '現在、日本時間 午後11時45分です🌙',
-  '10 23 * * *': '現在、日本時間 午前8時10分です☀️',
-  '10 11 * * *': '現在、日本時間 午後8時10分です🌆',
+  am1145: '現在、日本時間 午前11時45分です🕚',
+  pm1145: '現在、日本時間 午後11時45分です🌙',
+  am0810: '現在、日本時間 午前8時10分です☀️',
+  pm0810: '現在、日本時間 午後8時10分です🌆',
 }
 
-const content = messages[SCHEDULE] || '定期投稿です'
+const content = messages[TYPE]
+
+if (!content) {
+  console.error('不明なタイプ:', TYPE)
+  process.exit(1)
+}
 
 const res = await fetch('https://collapse.jp/api/v4/bot/posts', {
   method: 'POST',
