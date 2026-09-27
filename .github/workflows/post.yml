@@ -1,12 +1,12 @@
 name: Collapse Bot Scheduled Post
 
 on:
-  schedule:
-    - cron: '45 2 * * *'
-    - cron: '45 14 * * *'
-    - cron: '10 23 * * *'
-    - cron: '10 11 * * *'
   workflow_dispatch:
+    inputs:
+      type:
+        description: '投稿タイプ'
+        required: true
+        type: string
 
 jobs:
   post:
@@ -15,8 +15,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       - run: node post.mjs
         env:
           COLLAPSE_BOT_TOKEN: ${{ secrets.COLLAPSE_BOT_TOKEN }}
-          SCHEDULE: ${{ github.event.schedule }}
+          POST_TYPE: ${{ inputs.type }}
